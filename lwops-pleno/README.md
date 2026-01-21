@@ -161,6 +161,12 @@ Não. Atualizar tudo de uma vez em produção pode causar indisponibilidade. Pat
 
 Esses exigem teste prévio. Já patches de sistema como Zerologon, BlueKeep e LSA normalmente têm baixo impacto funcional e alta prioridade de aplicação.
 
+<br>
+
+<p align="center">
+  <img src="Imagens/Análise_de_patches_de_segurança.png" alt="Análise de patches de segurança" width="1100">
+</p>
+
 
 ### Análise de alto consumo de CPU
 
