@@ -75,6 +75,13 @@ Para mim, backup só é confiável quando é testado. Por isso, periodicamente r
 | Redundância | Garantir que mais de um Domain Controller esteja coberto, evitando ponto único de falha. |
 | Testes de recuperação | Restaurar periodicamente em ambiente isolado, simulando falhas reais e validando AD, GPOs e replicação. |
 
+<br>
+
+<p align="center">
+  <img src="Backup_Active_Directory.png" alt="Fluxo de Backup do Active Directory" width="800">
+</p>
+
+
 ### Monitoramento de filesystem
 
 #### Resposta
