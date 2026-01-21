@@ -78,7 +78,7 @@ Para mim, backup só é confiável quando é testado. Por isso, periodicamente r
 <br>
 
 <p align="center">
-  <img src="Backup_Active_Directory.png" alt="Fluxo de Backup do Active Directory" width="800">
+  <img src="Imagens/Backup_Active_Directory.png" alt="Fluxo de Backup do Active Directory" width="800">
 </p>
 
 
@@ -115,7 +115,7 @@ Com essa estratégia, os alertas deixaram de ser ruído constante e passaram a s
 <br>
 
 <p align="center">
-  <img src="Monitoramento_FileSystem.png" alt="Fluxo de Monitoramento de Filesystem" width="950">
+  <img src="Imagens/Monitoramento_FileSystem.png" alt="Fluxo de Monitoramento de Filesystem" width="950">
 </p>
 
 
