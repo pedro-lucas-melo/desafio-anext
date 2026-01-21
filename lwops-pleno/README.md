@@ -172,6 +172,21 @@ Esses exigem teste prévio. Já patches de sistema como Zerologon, BlueKeep e LS
 
 Um servidor está apresentando 100% de uso de CPU às 05h00 da manhã. Descreva passo-a-passo como você investigaria e resolveria este problema.
 
+#### Resposta
+
+Quando vejo um servidor em 100% de CPU às 05h00, eu parto do princípio de que algo programado está rodando naquele horário. Meu passo-a-passo é:
+
+| Etapa | Ação |
+|------|------|
+| Confirmar o comportamento | Verificar no monitoramento se o pico ocorre sempre no mesmo horário e se é pontual ou contínuo. |
+| Identificar o processo | Acessar o servidor e usar Gerenciador de Tarefas / Performance Monitor para identificar o processo que consome CPU, anotando serviço, PID e usuário. |
+| Correlacionar com rotinas | Checar o Agendador de Tarefas e validar se há backups, jobs de manutenção, scripts ou rotinas de aplicação rodando nesse horário. |
+| Entender o impacto | Avaliar se o consumo afeta serviços críticos, usuários ou causa falhas em aplicações. |
+| Agir conforme o cenário | Se for job legítimo: ajustar horário, reduzir prioridade ou dividir a carga. Se for anormal: interromper o processo, corrigir a causa raiz e escalar para o time responsável. |
+| Prevenir recorrência | Criar alertas específicos, documentar a causa e ajustar o processo para evitar nova saturação de CPU. |
+
+Assim, eu saio do “apagar incêndio” e transformo o incidente em algo previsível e controlado.
+
 ### Conta de administrador local
 
 Em um ambiente corporativo com centenas de computadores Windows ingressados em domínio, todos possuem uma conta de administrador local necessária para atividades de suporte e contingência.
