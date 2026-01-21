@@ -323,6 +323,95 @@ Você precisa instalar o agente do Zabbix em 3 servidores Red Hat 6. A versão d
 
 Agora você precisa instalar o mesmo agente em 5.976 outros servidores. Você não sabe com exatidão se são Red Hat ou Debian. Como você instalaria? Onde você preve dificuldade?
 
+#### Resposta
+
+Em um cenário com poucos servidores, eu faço a instalação de forma controlada, validando cada etapa no próprio host antes de seguir para o próximo. A ideia é garantir que o agente sobe corretamente e comunica com o Zabbix Server.
+
+1. Verificar versão do sistema e conectividade
+
+~~~bash
+cat /etc/redhat-release
+ping <zabbix-server>
+~~~
+
+2. Adicionar o repositório compatível com Zabbix 7.x
+
+~~~bash
+rpm -Uvh https://repo.zabbix.com/zabbix/7.0/rhel/6/x86_64/zabbix-release-7.0-1.el6.noarch.rpm
+yum clean all
+~~~
+
+3. Instalar o agente
+
+~~~bash
+yum install zabbix-agent
+~~~
+
+4. Ajustar o arquivo de configuração
+
+~~~bash
+vi /etc/zabbix/zabbix_agentd.conf
+~~~
+
+Parâmetros principais que eu configuro:
+
+~~~text
+Server=<IP_DO_ZABBIX>
+ServerActive=<IP_DO_ZABBIX>
+Hostname=<NOME_DO_SERVIDOR>
+~~~
+
+5. Iniciar o serviço e habilitar no boot
+
+~~~bash
+service zabbix-agent start
+chkconfig zabbix-agent on
+~~~
+
+6. Liberar a porta no firewall, se existir
+
+~~~bash
+iptables -I INPUT -p tcp --dport 10050 -j ACCEPT
+service iptables save
+~~~
+
+As principais dificuldades que eu prevejo nesse cenário são: o Red Hat 6 é antigo e pode não ter dependências compatíveis, TLS desatualizado pode impedir o agente de iniciar, e ambientes sem acesso à internet exigem instalação via pacotes offline.
+
+Agora eu preciso instalar o mesmo agente em 5.976 outros servidores, sem saber com exatidão se são Red Hat ou Debian.
+
+Nesse volume, não é viável fazer manualmente. Eu trato como automação em massa. A abordagem que eu uso é criar um único script que detecta automaticamente a família do sistema, adiciona o repositório correto, instala o agente, ajusta o arquivo de configuração, inicia o serviço e habilita no boot.
+
+Exemplo de lógica do script:
+
+~~~bash
+if [ -f /etc/redhat-release ]; then
+  rpm -Uvh https://repo.zabbix.com/zabbix/7.0/rhel/6/x86_64/zabbix-release-7.0-1.el6.noarch.rpm
+  yum clean all
+  yum install -y zabbix-agent
+elif [ -f /etc/debian_version ]; then
+  wget https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_7.0-1+debian_all.deb
+  dpkg -i zabbix-release_7.0-1+debian_all.deb
+  apt update
+  apt install -y zabbix-agent
+fi
+~~~
+
+Depois disso, o próprio script ajusta automaticamente:
+
+~~~text
+Server
+ServerActive
+Hostname
+~~~
+
+Em seguida, ele inicia o serviço e habilita o agente no boot.
+
+Eu executo esse processo via ferramenta de automação (como Ansible) ou execução remota em lote via SSH.
+
+As dificuldades que eu prevejo nesse cenário são: sistemas muito antigos sem suporte ao Zabbix 7.x, servidores sem acesso à internet ou proxy, firewalls bloqueando a porta 10050, hostnames fora do padrão esperado e ambientes com hardening que bloqueiam instalação remota.
+
+Por isso, antes de rodar em massa, eu sempre valido em um grupo piloto para garantir que o processo funciona sem impacto em produção.
+
 ### Novo usuário no Linux
 
 Um cliente pediu para conectar no servidor Linux chamado `magela.fqdn`. Ele gostaria de conectar no servidor via SSH com chave RSA. Monte um passo-a-passo de comandos para que o usuário com Windows XP possa conectar a esse servidor Linux sem precisar informar a senha. Se o usuário precisar executar comandos como root sem saber a senha de root, quais passos você adicionaria no processo? Precisa explicar algo para o usuário?
