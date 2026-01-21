@@ -61,6 +61,20 @@ Com essas cinco práticas, o servidor já sai de um estado “padrão” para um
 
 Você é responsável por vários Domain Controllers. Descreva sua estratégia de backup e os componentes críticos que devem ser incluídos no processo de backup diário do ambiente. Como você testaria a recuperação?
 
+#### Resposta
+
+Em um ambiente com vários Domain Controllers, eu trato o backup do Active Directory como algo crítico. O objetivo é garantir que sempre exista uma cópia íntegra e recente do AD, pronta para ser usada em caso de falha, erro humano ou ataque.
+
+Para mim, backup só é confiável quando é testado. Por isso, periodicamente restauro esses dados em um ambiente isolado, simulando perda de um DC ou corrupção do AD. Assim eu valido se o controlador sobe corretamente, se o AD funciona, se as GPOs estão íntegras e se a replicação volta ao normal.
+
+| Etapa | Estratégia / Processo |
+|------|------------------------|
+| System State dos DCs | Backup diário do System State, incluindo banco do AD, SYSVOL, registro e arquivos críticos. |
+| Backup completo | Em DCs estratégicos, manter também backup completo do servidor para cenários de desastre total. |
+| Armazenamento isolado | Guardar cópias fora do domínio e do próprio servidor, protegendo contra ransomware e corrupção em massa. |
+| Redundância | Garantir que mais de um Domain Controller esteja coberto, evitando ponto único de falha. |
+| Testes de recuperação | Restaurar periodicamente em ambiente isolado, simulando falhas reais e validando AD, GPOs e replicação. |
+
 ### Monitoramento de filesystem
 
 Você é responsável por monitorar o espaço em disco de 798 servidores Windows Server 2012 R2 a 2025. Isso gera diariamente 400 alertas de espaço em disco a 90% de uso. Em muitos desses alertas, depois de 10 minutos o espaço em disco já está 100% fazendo com que serviços parem de funcionar. Sugira uma estratégia (que você já tenha usado) para ser colocada em prática para evitar que alertas voltem a acontecer tão frequentemente.
