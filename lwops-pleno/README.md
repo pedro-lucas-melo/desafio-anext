@@ -249,6 +249,69 @@ O resultado é simples: mesmo que uma máquina seja comprometida, aquela credenc
 
 Um volume lógico (LVM) em um servidor Linux está ficando sem espaço. O storage foi expandido no hypervisor/SAN. Quais são os passos para reconhecer o novo espaço no sistema operacional e aumentar o filesystem com segurança, considerando diferentes tipos de filesystem (ex.: ext4 e XFS)?
 
+### Resposta
+
+Quando o storage já foi expandido no hypervisor ou na SAN, o processo no Linux é fazer o sistema reconhecer esse novo espaço e propagá-lo até o filesystem, seguindo sempre a cadeia:
+
+Disco → PV → VG → LV → Filesystem
+
+1. Fazer o sistema reconhecer o novo tamanho do disco
+
+~~~bash
+echo 1 > /sys/class/block/sdX/device/rescan
+lsblk
+fdisk -l
+~~~
+
+2. Expandir o Volume Físico (PV)
+
+~~~bash
+pvresize /dev/sdX
+~~~
+
+3. Verificar espaço livre no Volume Group (VG)
+
+~~~bash
+vgdisplay
+~~~
+
+4. Expandir o Volume Lógico (LV)
+
+Usando todo o espaço disponível:
+
+~~~bash
+lvextend -l +100%FREE /dev/vg_dados/lv_app
+~~~
+
+Ou definindo um tamanho específico:
+
+~~~bash
+lvextend -L +50G /dev/vg_dados/lv_app
+~~~
+
+5. Expandir o filesystem conforme o tipo
+
+Para ext4:
+
+~~~bash
+resize2fs /dev/vg_dados/lv_app
+~~~
+
+Para XFS (usar o ponto de montagem):
+
+~~~bash
+xfs_growfs /ponto/de/montagem
+~~~
+
+Boas práticas:
+
+- Validar cada etapa com `lsblk` e `df -h`
+- Garantir backup antes de alterações em disco
+- Nunca pular etapas da cadeia
+- Executar em janela controlada, mesmo sendo uma operação online
+
+Esse fluxo permite expandir volumes com segurança em ext4 e XFS, sem impacto para a aplicação.
+
 ### Monitoramento Zabbix
 
 Você precisa instalar o agente do Zabbix em 3 servidores Red Hat 6. A versão do zabbix precisa ser a 7.x.x. Como você faria a instalação? Responda com os passos para a instalação. Onde você preve dificuldade?
