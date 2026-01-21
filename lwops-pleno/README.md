@@ -140,6 +140,28 @@ Responda:
 1. Você poderia simplesmente atualizar tudo? 
 1. Qual dessas updates potencialmente quebraria a aplicação em execução no servidor?
 
+#### Resposta
+
+**Como eu resolveria esses problemas de segurança?**
+
+- Identifico quais CVEs realmente se aplicam ao ambiente (quais serviços existem).
+- Priorizo por risco: Domain Controllers e RCE sem autenticação primeiro.
+- Aplico mitigações imediatas quando existirem (desativar serviços, restringir portas, workarounds).
+- Patches entram em produção de forma controlada: primeiro em teste, depois em produção em janela.
+
+**Você poderia simplesmente atualizar tudo?**
+Não. Atualizar tudo de uma vez em produção pode causar indisponibilidade. Patches precisam ser priorizados, testados e aplicados em ondas.
+
+**Quais updates podem quebrar aplicações em execução?**
+
+* **CVE-2021-44228 (Log4Shell)** – atualização de bibliotecas Java pode quebrar aplicações legadas.
+* **CVE-2023-23397 (Outlook/Exchange)** – pode afetar integrações e plugins de e-mail.
+* **CVE-2022-21907 (IIS)** – pode impactar aplicações web legadas.
+* **CVE-2019-1068 (SQL Server)** – pode afetar queries, procedures e sistemas dependentes.
+
+Esses exigem teste prévio. Já patches de sistema como Zerologon, BlueKeep e LSA normalmente têm baixo impacto funcional e alta prioridade de aplicação.
+
+
 ### Análise de alto consumo de CPU
 
 Um servidor está apresentando 100% de uso de CPU às 05h00 da manhã. Descreva passo-a-passo como você investigaria e resolveria este problema.
