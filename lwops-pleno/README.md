@@ -253,7 +253,12 @@ Um volume lógico (LVM) em um servidor Linux está ficando sem espaço. O storag
 
 Quando o storage já foi expandido no hypervisor ou na SAN, o processo no Linux é fazer o sistema reconhecer esse novo espaço e propagá-lo até o filesystem, seguindo sempre a cadeia:
 
-Disco → PV → VG → LV → Filesystem
+<br>
+
+<p align="center">
+  <img src="Imagens/Gerenciamento_de_disco_LVM.png" alt="Gerenciamento_de_disco_LVM" width="850">
+</p>
+
 
 1. Fazer o sistema reconhecer o novo tamanho do disco
 
