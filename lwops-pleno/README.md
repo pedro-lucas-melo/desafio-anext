@@ -84,6 +84,8 @@ Para mim, backup só é confiável quando é testado. Por isso, periodicamente r
 
 ### Monitoramento de filesystem
 
+Você é responsável por monitorar o espaço em disco de 798 servidores Windows Server 2012 R2 a 2025. Isso gera diariamente 400 alertas de espaço em disco a 90% de uso. Em muitos desses alertas, depois de 10 minutos o espaço em disco já está 100% fazendo com que serviços parem de funcionar. Sugira uma estratégia (que você já tenha usado) para ser colocada em prática para evitar que alertas voltem a acontecer tão frequentemente.
+
 #### Resposta
 
 Em um ambiente grande como esse, com centenas de servidores, alertas constantes de disco quase sempre mostram que o problema não é só técnico, mas também de processo. Na minha experiência em redes, o que realmente funcionou foi mudar a abordagem: sair do modo “apagar incêndio” e passar a trabalhar de forma preventiva.
@@ -110,7 +112,12 @@ Além disso, passamos a trabalhar com tendência de crescimento. Em vez de olhar
 
 Com essa estratégia, os alertas deixaram de ser ruído constante e passaram a ser realmente úteis. Na prática, isso reduziu drasticamente os casos de disco em 100% e transformou o monitoramento em algo preventivo, e não apenas reativo.
 
-Você é responsável por monitorar o espaço em disco de 798 servidores Windows Server 2012 R2 a 2025. Isso gera diariamente 400 alertas de espaço em disco a 90% de uso. Em muitos desses alertas, depois de 10 minutos o espaço em disco já está 100% fazendo com que serviços parem de funcionar. Sugira uma estratégia (que você já tenha usado) para ser colocada em prática para evitar que alertas voltem a acontecer tão frequentemente.
+<br>
+
+<p align="center">
+  <img src="Monitoramento_FileSystem.png" alt="Fluxo de Monitoramento de Filesystem" width="950">
+</p>
+
 
 ### Análise de patches de segurança
 
