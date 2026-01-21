@@ -416,6 +416,82 @@ Por isso, antes de rodar em massa, eu sempre valido em um grupo piloto para gara
 
 Um cliente pediu para conectar no servidor Linux chamado `magela.fqdn`. Ele gostaria de conectar no servidor via SSH com chave RSA. Monte um passo-a-passo de comandos para que o usuário com Windows XP possa conectar a esse servidor Linux sem precisar informar a senha. Se o usuário precisar executar comandos como root sem saber a senha de root, quais passos você adicionaria no processo? Precisa explicar algo para o usuário?
 
+### Resposta
+
+O cliente precisa acessar o servidor Linux `magela.fqdn` a partir de um Windows XP, usando autenticação por chave RSA, sem precisar digitar senha.
+
+Do lado do servidor, eu começo criando o usuário:
+
+~~~bash
+useradd cliente
+passwd cliente
+~~~
+
+Depois, eu preparo a estrutura para chave SSH:
+
+~~~bash
+mkdir -p /home/cliente/.ssh
+chmod 700 /home/cliente/.ssh
+touch /home/cliente/.ssh/authorized_keys
+chmod 600 /home/cliente/.ssh/authorized_keys
+chown -R cliente:cliente /home/cliente/.ssh
+~~~
+
+Agora, do lado do Windows XP, eu peço para o usuário gerar a chave usando o PuTTYgen:
+
+1. Abrir o PuTTYgen  
+2. Selecionar tipo RSA  
+3. Clicar em “Generate”  
+4. Salvar:
+   - A chave privada (ex: `cliente.ppk`)
+   - Copiar o conteúdo da chave pública
+
+O usuário me envia o conteúdo da chave pública, e eu adiciono no servidor:
+
+~~~bash
+vi /home/cliente/.ssh/authorized_keys
+~~~
+
+Cole a chave pública em uma única linha.
+
+Depois disso, o usuário já consegue acessar sem senha usando o PuTTY configurado com a chave privada.
+
+Agora, se o usuário precisar executar comandos como root sem saber a senha de root, eu configuro sudo para ele:
+
+~~~bash
+visudo
+~~~
+
+E adiciono:
+
+~~~text
+cliente ALL=(ALL) NOPASSWD: ALL
+~~~
+
+Ou, de forma mais restrita:
+
+~~~text
+cliente ALL=(ALL) NOPASSWD: /bin/systemctl, /usr/bin/journalctl
+~~~
+
+Assim, ele pode executar comandos administrativos usando:
+
+~~~bash
+sudo comando
+~~~
+
+Sem precisar saber a senha de root.
+
+O que eu explico para o usuário:
+
+- Ele deve guardar a chave privada com cuidado, pois ela substitui a senha.  
+- Qualquer pessoa com essa chave pode acessar o servidor.  
+- Ele nunca deve compartilhar esse arquivo.  
+- Para executar comandos administrativos, basta usar `sudo`.  
+- Se a chave for perdida ou vazada, ela será revogada e uma nova será gerada.
+
+Dessa forma, eu entrego acesso seguro, sem senha, com rastreabilidade e sem expor a senha de root.
+
 ### Proxy reverso
 
 Uma aplicação web roda em dois servidores backend (`app01:8080` e `app02:8080`) atrás de um NGINX configurado como proxy reverso e load balancer.
