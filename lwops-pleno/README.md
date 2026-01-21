@@ -209,6 +209,40 @@ O desafio é garantir que:
 
 Como você resolveria esse desafio?
 
+#### Resposta
+
+Esse cenário pede uma solução que resolva o problema de segurança sem atrapalhar a operação. Manter a mesma senha em todas as máquinas é prático, mas abre a porta para movimento lateral caso um único computador seja comprometido.
+
+A forma que eu já vi funcionar bem em ambiente corporativo é centralizar o gerenciamento dessa conta local, fazendo com que:
+
+* Cada máquina tenha uma senha única e forte para o administrador local
+* Essa senha seja trocada automaticamente em intervalos definidos
+* O time de TI consiga consultar a senha quando precisar
+* Todo acesso fique registrado para auditoria
+* Ninguém precise ir máquina por máquina
+
+Na prática, eu resolveria isso com uma política central no domínio, aplicada via GPO, onde cada computador passa a gerar e manter sua própria senha de administrador local. Essa senha:
+
+* É criada automaticamente pelo próprio computador
+* É diferente em cada máquina
+* É rotacionada em períodos definidos (ex: a cada 30 dias)
+* Fica armazenada de forma segura no diretório central
+
+Quando o time de suporte precisa acessar uma máquina em contingência, ele consulta essa senha diretamente no ambiente central, com permissões controladas. Ou seja:
+
+* Nem todo mundo pode ver
+* Só grupos específicos de TI têm acesso
+* Toda consulta pode ser auditada
+
+Com isso, eu mantenho:
+
+* A praticidade operacional (o suporte continua tendo acesso)
+* A segurança (não existe mais senha reutilizada)
+* O controle (quem acessou, quando e por quê)
+
+O resultado é simples: mesmo que uma máquina seja comprometida, aquela credencial não serve para mais nenhuma outra. O atacante fica “preso” naquele equipamento, e o risco de movimento lateral praticamente desaparece.
+
+
 ## LinuxOps
 
 ### Gerenciamento de disco LVM
