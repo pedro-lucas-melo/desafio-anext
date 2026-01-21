@@ -185,6 +185,12 @@ Quando vejo um servidor em 100% de CPU às 05h00, eu parto do princípio de que 
 | Agir conforme o cenário | Se for job legítimo: ajustar horário, reduzir prioridade ou dividir a carga. Se for anormal: interromper o processo, corrigir a causa raiz e escalar para o time responsável. |
 | Prevenir recorrência | Criar alertas específicos, documentar a causa e ajustar o processo para evitar nova saturação de CPU. |
 
+<br>
+
+<p align="center">
+  <img src="Imagens/Análise_de_alto_consumo_de_CPU.png" alt="Análise_de_alto_consumo_de_CPU" width="1500">
+</p>
+
 Assim, eu saio do “apagar incêndio” e transformo o incidente em algo previsível e controlado.
 
 ### Conta de administrador local
