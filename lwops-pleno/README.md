@@ -43,6 +43,20 @@
 
 Liste 5 medidas de segurança (hardening) que você adotaria em um Windows Server em ambiente de produção.
 
+#### Resposta
+
+Em um ambiente de produção, eu penso em hardening como tudo aquilo que diminui a superfície de ataque do servidor e me dá mais controle sobre o que está acontecendo. Para um Windows Server, cinco medidas que considero essenciais são:
+
+| Medida de Hardening | Descrição |
+|--------------------|-----------|
+| Aplicar políticas de segurança via GPO | Fortalecer políticas como senha forte, bloqueio por tentativas inválidas, expiração adequada e remoção de acessos desnecessários. Sempre que possível, seguir a *Microsoft Security Baseline*, que já traz um padrão seguro validado pela própria Microsoft. |
+| Manter o sistema sempre atualizado | Utilizar Windows Update ou WSUS para garantir que os servidores estejam com os patches em dia. Atualizações fecham vulnerabilidades que muitas vezes já estão sendo exploradas ativamente. |
+| Desativar serviços e portas não utilizados | Remover tudo que não é necessário, incluindo roles que não fazem sentido naquele servidor e portas abertas sem motivo. Exemplo: RDP liberado apenas para IPs confiáveis. Menos serviços ativos = menos pontos de ataque. |
+| Restringir o acesso administrativo | Utilizar contas separadas para uso comum e administração, aplicando o princípio do menor privilégio. Para acessos remotos, sempre que possível, habilitar MFA para reduzir riscos em caso de comprometimento de credenciais. |
+| Habilitar auditoria e monitoramento | Ativar logs de segurança para logins, falhas e alterações importantes, enviando esses eventos para um servidor central ou SIEM. Isso permite detectar comportamentos suspeitos e agir rapidamente em um possível incidente. |
+
+Com essas cinco práticas, o servidor já sai de um estado “padrão” para um nível bem mais seguro, mostrando cuidado e maturidade em um ambiente corporativo.
+
 ### Backup de Active Directory
 
 Você é responsável por vários Domain Controllers. Descreva sua estratégia de backup e os componentes críticos que devem ser incluídos no processo de backup diário do ambiente. Como você testaria a recuperação?
