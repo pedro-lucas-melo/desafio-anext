@@ -77,6 +77,32 @@ Para mim, backup só é confiável quando é testado. Por isso, periodicamente r
 
 ### Monitoramento de filesystem
 
+#### Resposta
+
+Em um ambiente grande como esse, com centenas de servidores, alertas constantes de disco quase sempre mostram que o problema não é só técnico, mas também de processo. Na minha experiência em redes, o que realmente funcionou foi mudar a abordagem: sair do modo “apagar incêndio” e passar a trabalhar de forma preventiva.
+
+O primeiro passo foi classificar os servidores por tipo (aplicação, banco, arquivos, AD, etc.) e entender o padrão de crescimento de cada um. A partir disso, ajustamos dois níveis de alerta:
+
+- Alerta preventivo em torno de 75–80%
+
+- Alerta crítico em 90%
+
+Quando o alerta preventivo disparava, já existia um fluxo definido: identificar rapidamente o que estava consumindo espaço e agir antes que o volume chegasse ao limite. Isso evitava que o time só fosse acionado quando o problema já estava crítico.
+
+Também implementei rotinas controladas de limpeza para itens que costumam crescer rápido, sempre alinhadas com as equipes responsáveis:
+
+- Logs antigos de aplicações
+
+- Arquivos temporários
+
+- Dumps de erro
+
+- Pastas de cache ou update esquecidas
+
+Além disso, passamos a trabalhar com tendência de crescimento. Em vez de olhar apenas “quanto está cheio”, analisávamos “quanto cresce por dia”. Assim, era possível prever quando um disco iria estourar e agir com antecedência, seja expandindo o volume, seja corrigindo a origem do consumo.
+
+Com essa estratégia, os alertas deixaram de ser ruído constante e passaram a ser realmente úteis. Na prática, isso reduziu drasticamente os casos de disco em 100% e transformou o monitoramento em algo preventivo, e não apenas reativo.
+
 Você é responsável por monitorar o espaço em disco de 798 servidores Windows Server 2012 R2 a 2025. Isso gera diariamente 400 alertas de espaço em disco a 90% de uso. Em muitos desses alertas, depois de 10 minutos o espaço em disco já está 100% fazendo com que serviços parem de funcionar. Sugira uma estratégia (que você já tenha usado) para ser colocada em prática para evitar que alertas voltem a acontecer tão frequentemente.
 
 ### Análise de patches de segurança
