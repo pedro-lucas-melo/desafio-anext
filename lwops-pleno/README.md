@@ -510,6 +510,36 @@ Considerando o cenário descrito, quais seriam as principais hipóteses para os 
 
 Como você restabeleceria em 1 min. a operação normal do serviço?
 
+#### Resposta
+
+Diante de erros intermitentes 502 e perda de sessão, eu parto do princípio de que um dos backends ficou instável após a atualização.
+
+Para restabelecer o serviço rapidamente, eu removo temporariamente o nó problemático do balanceamento e forço todo o tráfego para o backend saudável.
+
+No NGINX, edito o upstream:
+
+~~~nginx
+upstream backend {
+    server app01:8080;
+    # server app02:8080;
+}
+~~~
+
+Em seguida, valido e recarrego a configuração:
+
+~~~bash
+nginx -t && systemctl reload nginx
+~~~
+
+Com isso, em menos de 1 minuto:
+
+- Os erros 502 cessam, pois o NGINX não tenta mais conectar no backend instável  
+- A perda de sessão desaparece, já que todo o tráfego fica em um único nó  
+- O serviço volta a operar normalmente para os usuários  
+
+Enquanto o ambiente já está estável, eu investigo o backend removido em paralelo para corrigir a causa raiz e reinseri-lo depois no balanceamento.
+
+
 ### Postfix relay
 
 Um servidor Linux utiliza Postfix como MTA para envio de e-mails de uma aplicação interna. Recentemente, os e-mails enviados para domínios externos (ex.: Gmail, Outlook) não estão sendo entregues, enquanto envios para domínios internos funcionam normalmente.
