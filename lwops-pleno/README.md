@@ -552,3 +552,61 @@ status=bounced (host gmail-smtp-in.l.google.com said: 550-5.7.1 Message rejected
 ```
 
 Diante desse cenário, quais seriam as principais causas para falha no envio de e-mails externos via Postfix e quais verificações você faria no sistema e na configuração do Postfix para diagnosticar e corrigir o problema?
+
+### Reposta
+
+Quando envios internos funcionam e externos falham, eu parto do princípio de que o problema está entre conectividade, reputação ou política de envio.
+
+As principais causas que eu considero são:
+
+- Bloqueio de saída na porta 25 pelo firewall, ISP ou provedor de nuvem  
+- IP do servidor em blacklist (reputação ruim)  
+- Falta de registros SPF, DKIM ou DMARC no domínio  
+- Servidor sendo identificado como possível spam  
+- Postfix tentando entregar diretamente em vez de usar um relay confiável  
+
+As primeiras verificações que eu faço:
+
+~~~bash
+telnet gmail-smtp-in.l.google.com 25
+nc -vz gmail-smtp-in.l.google.com 25
+~~~
+
+Se não conectar, o problema é de rede ou bloqueio de saída.
+
+Verifico a fila de e-mails:
+
+~~~bash
+mailq
+~~~
+
+Analiso os logs em tempo real:
+
+~~~bash
+tail -f /var/log/maillog
+~~~
+
+No Postfix, confirmo se existe relay configurado:
+
+~~~bash
+postconf | grep relayhost
+~~~
+
+Se não houver ou estiver errado, eu configuro um relay confiável:
+
+~~~text
+relayhost = [smtp.relay.com]:587
+~~~
+
+E valido:
+
+- SPF do domínio aponta para esse servidor  
+- DKIM está assinado corretamente  
+- IP não está em blacklist pública  
+
+Na prática, a correção costuma passar por:
+
+- Liberar a saída SMTP  
+- Usar um relay autenticado  
+- Ajustar SPF, DKIM e DMARC  
+- Limpar a fila e reenviar os e-mails  
