@@ -6,7 +6,7 @@
 
 1. Você pode fazer um fork deste repositório em sua conta do Github e `comitar` as alterações lá. Ao mostrar que você sabe editar arquivos MD e trabalhar ideia com o Excalidraw isso contará pontos pra você. Se preferir pode criar um documento no Word/Powerpoint e encaminhar a sua resposta.
 
-1. Responda neste mesmo documento.
+1. Responda neste mesmo documento ou em novo(s) arquivo(s). Como preferir.
 
 1. Utilize o seu mecanismo de busca na Internet preferido para referências e construa as suas respostas. 
 
@@ -16,7 +16,7 @@
 
 1. Não peça para que outros respondam por você. Em algum momento você deverá demonstrar na prática que conhece realmente o que você disse que sabe.
 
-1. Lembre-se deste teste. Na entrevista pessoal discutiremos as suas respostas.
+1. Lembre-se deste teste. Na entrevista on-line discutiremos as suas respostas.
 
 1. Se usar ChatGPT ou qualquer outro LLM para responder por você, saiba filtrar a resposta. No dia da entrevista repetiremos alguns testes ao vivo. Quem irá te entrevistar provavelmente treinou a LLM que você usou para consulta.
 
@@ -74,7 +74,7 @@ Responda:
 
 ### Análise de alto consumo de CPU
 
-Um servidor está apresentando 100% de uso de CPU às 05h00 da manhã. Descreva passo a passo como você investigaria e resolveria este problema.
+Um servidor está apresentando 100% de uso de CPU às 05h00 da manhã. Descreva passo-a-passo como você investigaria e resolveria este problema.
 
 ### Conta de administrador local
 
@@ -106,7 +106,7 @@ Agora você precisa instalar o mesmo agente em 5.976 outros servidores. Você n�
 
 ### Novo usuário no Linux
 
-Um cliente pediu para conectar no servidor Linux chamado `magela.fqdn`. Ele gostaria de conectar no servidor via SSH com chave RSA. Monte um passo-a-passo de comandos para que o usuário com Windows XP possa conectar a esse servidor Linux sem precisar informar a senha. Se o usuário precisar executar comandos como root sem saber a senha de root, quais passos você adicionaria no processo? Tem que explicar algo para o usuário?
+Um cliente pediu para conectar no servidor Linux chamado `magela.fqdn`. Ele gostaria de conectar no servidor via SSH com chave RSA. Monte um passo-a-passo de comandos para que o usuário com Windows XP possa conectar a esse servidor Linux sem precisar informar a senha. Se o usuário precisar executar comandos como root sem saber a senha de root, quais passos você adicionaria no processo? Precisa explicar algo para o usuário?
 
 ### Proxy reverso
 
